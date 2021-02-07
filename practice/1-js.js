@@ -1,11 +1,20 @@
-const fs = require('fs');
-const bufferData = fs.readFileSync('1-json.json')
-const dataJSON = bufferData.toString()
-const data = JSON.parse(dataJSON)
+const tasks = {
+    tasks: [{
+        text: 'Grocery shopping',
+        completed: true
+    },
+    {
+        text: 'clean yard',
+        completed: false
+    },
+    {
+        text: 'film course',
+        completed: false
+    }]
+}
 
-data.name = "dhruv"
-data.age = 21
+const getTasksToDo = tasks.filter(task => {
+    
+}) 
 
-console.log(data)
-const toJson = JSON.stringify(data) // write new data back to the jason file
-fs.writeFileSync('1-json.json', toJson)
+console.log(tasks.getTasksToDo())

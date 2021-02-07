@@ -1,16 +1,11 @@
 const fs = require('fs')
 const chalk = require('chalk')
-const getNotes = function() {
-    console.log("Your notes")
-}
 
-const addNotes = function(title, body){
+const addNotes = (title, body) => {
     const notes = loadNotes()
-    const duplicateNotes = notes.filter(function (note) {
-        return note.title === title
-    })
+    const duplicateNote = notes.find((note) => note.title === title )
     
-    if (duplicateNotes.length === 0){
+    if (!duplicateNote){
         notes.push({
             title: title,
             body: body
@@ -24,12 +19,12 @@ const addNotes = function(title, body){
 
 }
 
-const saveNotes = function(notes) {
+const saveNotes = (notes) => {
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
 }
 
-const loadNotes = function(){
+const loadNotes = ()=>{
     try{
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJSON = dataBuffer.toString()
@@ -39,11 +34,9 @@ const loadNotes = function(){
     }
 }
 
-const removeNotes = function(title){
+const removeNotes = (title) => {
     const notes = loadNotes()
-    const foudNote = notes.filter(function(note){
-        return note.title !== title
-    })
+    const foudNote = notes.filter((note) => note.title !== title)
 
     if(notes.length > foudNote.length){
         console.log(chalk.green.inverse.bold('Note Removed!'))
@@ -53,10 +46,26 @@ const removeNotes = function(title){
 
     saveNotes(foudNote)
 }
-
+const listNotes = () => {
+    const notes = loadNotes()
+    console.log(chalk.blue.inverse.bold('Your Notes'))
+    notes.forEach(note => console.log(note.title))
+}
+const readNotes = (title) => {
+    const notes = loadNotes()
+    const readnote = notes.find((note) => note.title === title)
+    if(readnote){
+        console.log(chalk.green.inverse.bold('Note Title: \n' + readnote.title))
+        console.log(chalk.blue.inverse.bold('Note Body: \n' + readnote.body))
+    }
+    else{
+        console.log(chalk.red.inverse.bold('Note not found'))
+    }
+}
 
 module.exports = {
     addNotes: addNotes,
-    getNotes: getNotes,
-    removeNotes: removeNotes
+    removeNotes: removeNotes,
+    listNotes: listNotes,
+    readNotes: readNotes
 }
