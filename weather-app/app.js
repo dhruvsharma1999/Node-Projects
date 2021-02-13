@@ -7,3 +7,4 @@ request({url:url, json:true }, (error, response) => {
 })
 
 // gecoding
+// To convert a given location name to lat and lang, to determine to temprature 
